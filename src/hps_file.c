@@ -6,18 +6,22 @@
 #include <unistd.h>
 #include <stdio.h>
 
-#include "file.h"
+#include "hps_file.h"
 
 static unsigned long get_size_of_file(const char* file_name);
 
-static const size_t MAX_SIZE_OF_FILE = 100 * 1024 * 1024; // 100M
-
-int read(const char* file_name, void* buffer, unsigned long buffer_size)
+int hps_read(const char* file_name, void* buffer, unsigned long buffer_size)
 {
 	assert(buffer != 0);
 	assert(buffer_size > 0);
 
 	unsigned long file_size = get_size_of_file(file_name);
+
+	/*
+	 * the max size of file is 100M
+	 */
+	const size_t MAX_SIZE_OF_FILE = 100 * 1024 * 1024;
+
 	if ((file_size == 0) || (file_size > MAX_SIZE_OF_FILE))
 	{
 		printf("d1: %d\n", file_size);

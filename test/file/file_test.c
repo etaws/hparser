@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "file.h"
+#include "hps_file.h"
 
-void print_buffer_bytes(char* buffer, size_t size);
+static void print_buffer_bytes(char* buffer, size_t size);
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 	memset(buffer, 0, BUFFER_SIZE);
 
-	int file_size = read(test_file_name, buffer, BUFFER_SIZE);
+	int file_size = hps_read(test_file_name, buffer, BUFFER_SIZE);
 
 	if (file_size > 0)
 	{
