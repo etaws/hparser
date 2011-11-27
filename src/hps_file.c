@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
+#include "hps_log.h"
 #include "hps_file.h"
 
 static unsigned long get_size_of_file(const char* file_name);
@@ -24,27 +25,27 @@ int hps_read(const char* file_name, void* buffer, unsigned long buffer_size)
 
 	if ((file_size == 0) || (file_size > MAX_SIZE_OF_FILE))
 	{
-		printf("d1: %d\n", file_size);
+		hps_log(HPS_INFO, "file is too large");
 		return -1;
 	}
 
 	if (file_size >= buffer_size)
 	{
-		printf("d2: %d and %d\n", file_size, buffer_size);
+		hps_log(HPS_INFO, "file is large than the buffer");
 		return -1;
 	}
 
 	int fd = open(file_name, O_RDONLY);
 	if (fd == -1)
 	{
-		printf("d3\n");
+		hps_log(HPS_INFO, "failed to open file");
 		return -1;
 	}
 
 	ssize_t read_bytes = read(fd, buffer, file_size);
 	if (read_bytes <= 0)
 	{
-		printf("d4: %d\n", read_bytes);
+		hps_log(HPS_INFO, "failed to read file");
 		close(fd);
 		return -1;
 	}

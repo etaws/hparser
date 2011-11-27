@@ -3,11 +3,16 @@
 #include <string.h>
 
 #include "hps_file.h"
+#include "hps_log.h"
 
 static void print_buffer_bytes(char* buffer, size_t size);
 
 int main(int argc, char *argv[])
 {
+	hps_set_log_file("a.log");
+
+	hps_set_log_level(HPS_DEBUG);
+
 	const char* test_file_name = "hello";
 	if (argc >= 2)
 	{

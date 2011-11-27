@@ -8,7 +8,7 @@ SRCS_PATH       := $(PREFIX)/src
 
 EXE             := file_test ut_file_test
 
-FILE_SRCS		:= hps_file.c
+FILE_SRCS		:= hps_file.c hps_log.c
 FILE_OBJS		:= $(patsubst %.c,$(OBJS_PATH)/%.o,$(FILE_SRCS))
 FILE_DEPS		:= $(patsubst %.c,$(OBJS_PATH)/%.d,$(FILE_SRCS))
 
