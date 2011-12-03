@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "hps_util.h"
 #include "hps_file.h"
 #include "hps_log.h"
 
-static void print_buffer_bytes(char* buffer, size_t size);
+static void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size);
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
 
 	hps_set_log_level(HPS_DEBUG);
 
-	const char* test_file_name = "hello";
+	const hps_char_t* test_file_name = "hello";
 	if (argc >= 2)
 	{
 		test_file_name = argv[1];
@@ -21,8 +22,9 @@ int main(int argc, char *argv[])
 
 	printf("test file name: %s\n", test_file_name);
 
-	const int BUFFER_SIZE = 1024 * 1024 * 100;
-	void* buffer = malloc(BUFFER_SIZE);
+	const hps_uint32_t BUFFER_SIZE = 1024 * 1024 * 100;
+	void* buffer = hps_malloc(BUFFER_SIZE);
+
 	if (buffer == 0)
 	{
 		return -1;
@@ -30,13 +32,13 @@ int main(int argc, char *argv[])
 
 	memset(buffer, 0, BUFFER_SIZE);
 
-	int file_size = hps_read(test_file_name, buffer, BUFFER_SIZE);
+	hps_int32_t file_size = hps_read(test_file_name, buffer, BUFFER_SIZE);
 
 	if (file_size > 0)
 	{
 		printf("success: %d\n", file_size);
 
-		print_buffer_bytes((char*)buffer, file_size);
+		print_buffer_bytes((hps_char_t*) buffer, file_size);
 	}
 	else
 	{
@@ -49,9 +51,9 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void print_buffer_bytes(char* buffer, size_t size)
+void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size)
 {
-	for (size_t i = 0; i < size; ++i)
+	for (hps_uint32_t i = 0; i < size; ++i)
 	{
 		printf("%d ", buffer[i]);
 	}

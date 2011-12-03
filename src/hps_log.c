@@ -5,20 +5,20 @@
 
 #include "hps_log.h"
 
-static int verbosity = HPS_INFO;
-static const char* logfile = 0;
+static hps_uint32_t verbosity = HPS_INFO;
+static const hps_char_t* logfile = 0;
 
-void hps_set_log_level(int level)
+void hps_set_log_level(hps_uint32_t level)
 {
 	verbosity = level;
 }
 
-void hps_set_log_file(const char* filename)
+void hps_set_log_file(const hps_char_t* filename)
 {
 	logfile = filename;
 }
 
-void hps_log(int level, const char* message)
+void hps_log(hps_uint32_t level, const hps_char_t* message)
 {
 	if ((level & 0xFF) < verbosity)
 	{
@@ -37,8 +37,7 @@ void hps_log(int level, const char* message)
 		return;
 	}
 
-
-	char buf[64];
+	hps_char_t buf[64];
 	time_t now = time(NULL);
 	strftime(buf, sizeof(buf), "%d %b %H:%M:%S", localtime(&now));
 	fprintf(fp, "[%d] %s - %s\n", (int)getpid(), buf, message);

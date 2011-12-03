@@ -9,19 +9,19 @@
 #include "hps_log.h"
 #include "hps_file.h"
 
-static unsigned long get_size_of_file(const char* file_name);
+static hps_uint32_t get_size_of_file(const hps_char_t* file_name);
 
-int hps_read(const char* file_name, void* buffer, unsigned long buffer_size)
+hps_int32_t hps_read(const hps_char_t* file_name, void* buffer, hps_uint32_t buffer_size)
 {
 	assert(buffer != 0);
 	assert(buffer_size > 0);
 
-	unsigned long file_size = get_size_of_file(file_name);
+	hps_uint32_t file_size = get_size_of_file(file_name);
 
 	/*
 	 * the max size of file is 100M
 	 */
-	const size_t MAX_SIZE_OF_FILE = 100 * 1024 * 1024;
+	const hps_uint32_t MAX_SIZE_OF_FILE = 100 * 1024 * 1024;
 
 	if ((file_size == 0) || (file_size > MAX_SIZE_OF_FILE))
 	{
@@ -55,7 +55,10 @@ int hps_read(const char* file_name, void* buffer, unsigned long buffer_size)
 	return file_size;
 }
 
-unsigned long get_size_of_file(const char* file_name)
+/*
+ * if failed to get the file size, return 0;
+ */
+hps_uint32_t get_size_of_file(const hps_char_t* file_name)
 {
 	assert(0 != file_name);
 
@@ -67,6 +70,6 @@ unsigned long get_size_of_file(const char* file_name)
 		return 0;
 	}
 
-	return (unsigned long) buf.st_size;
+	return (hps_uint32_t) buf.st_size;
 }
 
