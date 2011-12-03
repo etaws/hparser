@@ -25,7 +25,7 @@ void hps_log(int level, const char* message)
 		return;
 	}
 
-    FILE *fp = stdout;
+	FILE *fp = stdout;
 
 	if (logfile != 0)
 	{
@@ -38,12 +38,12 @@ void hps_log(int level, const char* message)
 	}
 
 
-    char buf[64];
+	char buf[64];
 	time_t now = time(NULL);
 	strftime(buf, sizeof(buf), "%d %b %H:%M:%S", localtime(&now));
 	fprintf(fp, "[%d] %s - %s\n", (int)getpid(), buf, message);
 
-    fflush(fp);
+	fflush(fp);
 
 	if (logfile != 0)
 	{
