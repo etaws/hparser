@@ -7,6 +7,8 @@
 #include "hps_log.h"
 
 static void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size);
+static void print_v_buffer(hps_char_t* buffer, hps_uint32_t size);
+static void print_hex(int i);
 
 int main(int argc, char *argv[])
 {
@@ -53,10 +55,78 @@ int main(int argc, char *argv[])
 
 void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size)
 {
+	hps_char_t sixteen[16];
+	memset(sixteen, 0, sizeof(sixteen));
+	hps_uint32_t j = 0;
+
+	hps_uint32_t end = size;
+	if ((size % 16) != 0)
+	{
+		end = size + 16 - (size % 16);
+	}
+
+	for (hps_uint32_t i = 0; i < end; ++i)
+	{
+		if (i < size)
+		{
+			sixteen[j] = buffer[i];
+			print_hex(buffer[i]);
+		}
+		else
+		{
+			sixteen[j] = 0;
+			printf("  ");
+		}
+
+		if (i % 16 == 15)
+		{
+			printf("  ");
+			print_v_buffer(sixteen, sizeof(sixteen));
+			j = 0;
+		}
+		else if ((i % 2) == 1)
+		{
+			j++;
+			printf(" ");
+		}
+		else
+		{
+			j++;
+		}
+	}
+}
+
+void print_v_buffer(hps_char_t* buffer, hps_uint32_t size)
+{
 	for (hps_uint32_t i = 0; i < size; ++i)
 	{
-		printf("%d ", buffer[i]);
+		int c = buffer[i];
+		if ((c >= 20) && (c <= 127))
+		{
+			printf("%c", buffer[i]);
+		}
+		else if (buffer[i] != 0)
+		{
+			printf(".");
+		}
+		else
+		{
+		}
+
+		buffer[i] = 0;
 	}
 
 	printf("\n");
+}
+
+void print_hex(int i)
+{
+	if (i > 15)
+	{
+		printf("%x", i);
+	}
+	else
+	{
+		printf("0%x", i);
+	}
 }
