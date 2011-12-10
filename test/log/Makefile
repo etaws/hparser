@@ -8,9 +8,9 @@ SRCS_PATH       := $(PREFIX)/src
 
 EXE             := log_test
 
-LOG_SRCS		:= hps_log.c
-LOG_OBJS		:= $(patsubst %.c,$(OBJS_PATH)/%.o,$(LOG_SRCS))
-LOG_DEPS		:= $(patsubst %.c,$(OBJS_PATH)/%.d,$(LOG_SRCS))
+LOG_SRCS        := hps_log.c
+LOG_OBJS        := $(patsubst %.c,$(OBJS_PATH)/%.o,$(LOG_SRCS))
+LOG_DEPS        := $(patsubst %.c,$(OBJS_PATH)/%.d,$(LOG_SRCS))
 
 .PHONY: clean
 
