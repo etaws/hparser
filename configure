@@ -2,13 +2,13 @@
 
 PREFIX=`pwd`
 
-#CC=/usr/bin/gcc
-#LINK=/usr/bin/gcc
-#CFLAGS="-g -Werror -Wextra -std=c99 -pedantic -D=_GNU_SOURCE"
+CC=/usr/bin/gcc
+LINK=/usr/bin/gcc
+CFLAGS="-g -Werror -Wextra -std=c99 -pedantic -D=_GNU_SOURCE"
 
-CC=/usr/bin/g++
-LINK=/usr/bin/g++
-CFLAGS="-g -Werror -Wextra"
+#CC=/usr/bin/g++
+#LINK=/usr/bin/g++
+#CFLAGS="-g -Werror -Wextra"
 
 MAKE=/usr/bin/make
 LD=/usr/bin/ar

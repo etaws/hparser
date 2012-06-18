@@ -3,10 +3,10 @@
 
 #include "hps_util.h"
 
-const hps_uint32_t HPS_DEBUG   = 1;
-const hps_uint32_t HPS_INFO    = 2;
-const hps_uint32_t HPS_NOTICE  = 3;
-const hps_uint32_t HPS_WARNING = 4;
+#define HPS_DEBUG 1
+#define HPS_INFO 2
+#define HPS_NOTICE 3
+#define HPS_WARNING 4
 
 extern void hps_set_log_level(hps_uint32_t level);
 extern void hps_set_log_file(const hps_char_t* filename);
