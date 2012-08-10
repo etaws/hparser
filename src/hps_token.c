@@ -4,32 +4,43 @@
 #include "hps_util.h"
 #include "hps_token.h"
 
-static void print_buffer(const char* buffer, hps_uint32_t start, hps_uint32_t end) {
-	if (end == start) {
-		return;
+static hps_int32_t create_a_tag(const char* buffer, hps_uint32_t s, hps_uint32_t i, hps_token_node* token)
+{
+	assert(s <= i);
+
+	if (s == i) {
+		return 0;
 	}
 
-	hps_uint32_t i = start;
-	for (; i < end; ++i) {
-		printf("%c", buffer[i]);
+	token->type = 1;
+	token->content = buffer + s;
+	token->length = i - s;
+
+	return 1;
+}
+
+static hps_int32_t create_a_text(const char* buffer, hps_uint32_t s, hps_uint32_t i, hps_token_node* token)
+{
+	assert(s <= i);
+
+	if (s == i) {
+		return 0;
 	}
-	printf("\n");
+
+	token->type = 0;
+	token->content = buffer + s;
+	token->length = i - s;
+
+	return 1;
 }
 
-static void begin_a_new_tag(const char* buffer, hps_uint32_t s, hps_uint32_t i) {
-	assert(s <= i);
-	print_buffer(buffer, s, i);
-}
-
-static void begin_a_new_text(const char* buffer, hps_uint32_t s, hps_uint32_t i) {
-	assert(s <= i);
-	print_buffer(buffer, s, i);
-}
-
-void hps_token(const char* buffer, hps_uint32_t length)
+hps_uint32_t hps_token(const char* buffer, hps_uint32_t length, hps_token_node token_list[], hps_uint32_t token_list_length)
 {
 	assert(buffer != 0);
 	assert(length > 0);
+
+	assert(token_list != 0);
+	assert(token_list_length > 0);
 
 	hps_uint32_t i = 0;
 
@@ -39,18 +50,43 @@ void hps_token(const char* buffer, hps_uint32_t length)
 
 	hps_uint32_t s = 0;
 
+	hps_uint32_t token_index = 0;
+
 	for (i = 0; i < length; ++i) {
 		char c = buffer[i];
 		if ((state == state_text) && (c == '<')) {
-			begin_a_new_tag(buffer, s, i);
+			if (token_index == token_list_length) {
+				return 0;
+			}
+			if (1 == create_a_text(buffer, s, i, &token_list[token_index])) {
+				// if return 1, then create text node successfully
+				token_index++;
+			}
+
 			s = i;
 			state = state_on_tag;
 		} else if ((state == state_on_tag) && (c == '>')) {
-			begin_a_new_text(buffer, s, i + 1);
+			if (token_index == token_list_length) {
+				return 0;
+			}
+			if (1 == create_a_tag(buffer, s, i + 1, &token_list[token_index])) {
+				// if return 1, then create tag node successfully
+				token_index++;
+			}
+
 			s = i + 1;
 			state = state_text;
 		}
 	}
 
-	print_buffer(buffer, s, length);
+	if (token_index == token_list_length) {
+		return 0;
+	}
+
+	if (1 == create_a_text(buffer, s, length, &token_list[token_index])) {
+		// if return 1, then create text node successfully
+		token_index++;
+	}
+
+	return token_index;
 }
