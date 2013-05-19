@@ -13,4 +13,6 @@ typedef struct {
 // return the length of token nodes list
 extern hps_uint32_t hps_token(const char* buffer, hps_uint32_t length, hps_token_node token_list[], hps_uint32_t token_list_length);
 
+extern hps_uint32_t hps_detect_tag_name(hps_token_node* tag_node);
+
 #endif

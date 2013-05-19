@@ -74,6 +74,10 @@ static void print_token_list(hps_token_node* list, hps_uint32_t length)
 		hps_uint32_t l = list[i].length;
 
 		printf("%d ", list[i].type);
+		hps_uint32_t ll = hps_detect_tag_name(&list[i]);
+		if (ll > 0) {
+			print_buffer(list[i].content, ll);
+		}
 		print_buffer(s, l);
 	}
 }

@@ -4,6 +4,25 @@
 #include "hps_util.h"
 #include "hps_token.h"
 
+hps_uint32_t hps_detect_tag_name(hps_token_node* tag_node)
+{
+	if (tag_node->type != 1) {
+		return 0;
+	}
+
+	const hps_char_t* p = tag_node->content;
+	const hps_char_t* p_end = tag_node->content + tag_node->length;
+
+	while (p != p_end) {
+		if ((*p == ' ') || (*p == '>')) {
+			return (p - tag_node->content);
+		}
+		p++;
+	}
+
+	return 0;
+}
+
 static hps_int32_t create_a_tag(const char* buffer, hps_uint32_t s, hps_uint32_t i, hps_token_node* token)
 {
 	assert(s <= i);
