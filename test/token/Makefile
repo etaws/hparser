@@ -6,17 +6,24 @@ LOCAL_PATH      := .
 INCLUDES_PATH   := $(PREFIX)/src
 SRCS_PATH       := $(PREFIX)/src
 
-EXE             := token_test
+EXE             := token_test cut_it
 
-TOKEN_SRCS        := hps_token.c
-TOKEN_OBJS        := $(patsubst %.c,$(OBJS_PATH)/%.o,$(TOKEN_SRCS))
-TOKEN_DEPS        := $(patsubst %.c,$(OBJS_PATH)/%.d,$(TOKEN_SRCS))
+TOKEN_SRCS      := hps_token.c
+TOKEN_OBJS      := $(patsubst %.c,$(OBJS_PATH)/%.o,$(TOKEN_SRCS))
+TOKEN_DEPS      := $(patsubst %.c,$(OBJS_PATH)/%.d,$(TOKEN_SRCS))
+
+FILE_SRCS       := hps_file.c hps_log.c hps_util.c
+FILE_OBJS       := $(patsubst %.c,$(OBJS_PATH)/%.o,$(FILE_SRCS))
+FILE_DEPS       := $(patsubst %.c,$(OBJS_PATH)/%.d,$(FILE_SRCS))
 
 .PHONY: clean
 
 all: $(EXE)
 
 token_test: token_test.o $(TOKEN_OBJS)
+	$(LINK) $^ -o $@
+
+cut_it: cut_it.o $(TOKEN_OBJS) $(FILE_OBJS)
 	$(LINK) $^ -o $@
 
 $(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c 
@@ -33,7 +40,7 @@ $(OBJS_PATH)/%.o: $(SRCS_PATH)/%.c
 -include $(TOKEN_DEPS)
 
 clean:
-	@$(RM) -rf *.d $(TOKEN_DEPS) $(TOKEN_OBJS) *.o $(EXE) *.log
+	@$(RM) -rf *.d $(TOKEN_DEPS) $(TOKEN_OBJS) $(FILE_OBJS) $(FILE_DEPS) *.o $(EXE) *.log
 
 define make-depend
         $(CC) -MM            \
