@@ -3,3 +3,13 @@ obj/
 test/log/log_test
 test/log/log_test.d
 test/log/log_test.o
+test/log/a.log
+test/file/file_test
+test/file/file_test.d
+test/file/file_test.o
+test/file/ut_file_test
+test/file/ut_file_test.d
+test/file/ut_file_test.o
+test/token/token_test
+test/token/token_test.d
+test/token/token_test.o

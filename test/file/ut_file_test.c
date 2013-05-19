@@ -10,9 +10,6 @@ static void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size);
 
 int main(int argc, char *argv[])
 {
-	hps_set_log_file("a.log");
-
-	hps_set_log_level(HPS_DEBUG);
 
 	const hps_char_t* test_file_name = "hello";
 	if (argc >= 2)

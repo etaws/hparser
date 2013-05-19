@@ -10,12 +10,9 @@ static void print_buffer_bytes(hps_char_t* buffer, hps_uint32_t size);
 static void print_v_buffer(hps_char_t* buffer, hps_uint32_t size);
 static void print_hex(int i);
 
+// read a file into buffer, and print the content of buffer as HEX
 int main(int argc, char *argv[])
 {
-	hps_set_log_file("a.log");
-
-	hps_set_log_level(HPS_DEBUG);
-
 	const hps_char_t* test_file_name = "hello";
 	if (argc >= 2)
 	{
