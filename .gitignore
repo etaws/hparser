@@ -1,0 +1,5 @@
+BuildDefs
+obj/
+test/log/log_test
+test/log/log_test.d
+test/log/log_test.o
